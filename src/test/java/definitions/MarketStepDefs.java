@@ -59,6 +59,8 @@ public class MarketStepDefs {
         getDriver().findElement(By.xpath("//textarea[@id='address']")).sendKeys("55 Mueller Drive, San Juan, CA 99321");
         getDriver().findElement(By.xpath("//option[contains(text(),'Toyota')]")).click();
         getDriver().findElement(By.xpath("//button[@id='thirdPartyButton']")).click();
+        System.out.println("ALERT TEXT FOLLOWS: ");
+        System.out.println(getDriver().switchTo().alert().getText());
         getDriver().switchTo().alert().accept();
         getDriver().findElement(By.xpath("//input[@name='agreedToPrivacyPolicy'][@type='checkbox']")).click();
     }
@@ -71,6 +73,7 @@ public class MarketStepDefs {
     @Then("I verify required fields")
     public void iVerifyRequiredFields() {
         String username = getDriver().findElement(By.xpath("//b[@name='username']")).getText();
+        System.out.println("VERIFICATION, USERNAME TEXT: " + username);
 
     }
 
