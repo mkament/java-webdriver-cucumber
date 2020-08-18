@@ -69,11 +69,11 @@ Feature: Smoke steps
     Given I open url "https://www.startpage.com"
     Then I should see page title contains "Startpage"
     And I should see page title does not contain "Trump"
-    Then I click on element with xpath "//input[@id='query']"
-    Then I type "Behavior Driven Development" into element with xpath "//input[@id='query']"
-    And I click on element with xpath "//body/div[@class='container']/main[@class='main main--cover']/div[@class='cover']/section[@class='hero-search']/div[@class='hero-search__form']/div/form[@id='search-form']/button[@class='search-form__button']/span[@class='search-form__button-icon']/*[1]"
+    Then I click on element with xpath "//input[@id='q']"
+    Then I type "Behavior Driven Development" into element with xpath "//input[@id='q']"
+    And I click on element with xpath "//div[@class='ico']"
     Then I click on element with xpath "//button[contains(text(),'Images')]"
-    Given element with xpath "//span[@class='images-filter-size__dropdown__text']" should be present
+    Then element with xpath "//div[@id='images-filter-size']" should be present
     Then element with xpath "//button[contains(text(),'Videos')]" should be displayed
 
   @predefined7
