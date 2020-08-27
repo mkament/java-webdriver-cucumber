@@ -3,6 +3,7 @@ package definitions;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import org.apache.logging.log4j.core.util.JsonUtils;
 
 import java.util.*;
 
@@ -144,16 +145,16 @@ public class JavaStepDefs {
         System.out.println("----------");
 
 
-        for (int j = 1; j <= daysOfWeek.length ; j++) {
+        for (int j = 1; j <= daysOfWeek.length; j++) {
             if (j % every == 0) {
-                System.out.println(daysOfWeek[j-1]);
+                System.out.println(daysOfWeek[j - 1]);
             }
         }
 
         System.out.println("----------");
 
-        for (int k = every; k <= daysOfWeek.length ; k += every) {
-            System.out.println(daysOfWeek[k-1]);
+        for (int k = every; k <= daysOfWeek.length; k += every) {
+            System.out.println(daysOfWeek[k - 1]);
         }
         System.out.println("----------");
 
@@ -168,7 +169,7 @@ public class JavaStepDefs {
         user.put("username", "jdoe");
         user.put("email", "john@doe.example.com");
         user.put("password", "jdoe");
-        for(String key : user.keySet()) {
+        for (String key : user.keySet()) {
             System.out.println(key + ": " + user.get(key));
         }
 
@@ -178,7 +179,7 @@ public class JavaStepDefs {
         admin.put("password", "adminPass");
 
 
-        for(String key : admin.keySet()) {
+        for (String key : admin.keySet()) {
             System.out.println(key + ": " + admin.get(key));
         }
 
@@ -187,15 +188,157 @@ public class JavaStepDefs {
 
     @And("I switch key and value in a map")
     public void iSwitchKeyAndValueInAMap() {
-            Map<String, String> info = new LinkedHashMap<>();
-            info.put("firstName", "John");
-            info.put("middleName", "George");
-            String temp = info.get("firstName");
-            System.out.println(temp);
-            info.put("firstName", info.get("middleName"));
-            info.put("middleName", temp);
-            System.out.println(info.toString());
-            //Swap values of firstName and middleName in a Map, you  have map {firstName=George, middleName=John}
-            //To get value from map, use info.get("key"), to set value in a map, use info.put("key", "value");
+        Map<String, String> info = new LinkedHashMap<>();
+        info.put("firstName", "John");
+        info.put("middleName", "George");
+        String temp = info.get("firstName");
+        System.out.println(temp);
+        info.put("firstName", info.get("middleName"));
+        info.put("middleName", temp);
+        System.out.println(info.toString());
+        //Swap values of firstName and middleName in a Map, you  have map {firstName=George, middleName=John}
+        //To get value from map, use info.get("key"), to set value in a map, use info.put("key", "value");
     }
+
+    @And("I code lesson seven assignments")
+    public void iCodeLessonSevenAssignments() {
+        System.out.println("BELOW IS LESSON 7 HW PART 1:");
+        System.out.println(Arrays.toString(switch3rdAnd5thElements(new int[]{5, 2, 9, 7, 3})));
+        for (int element : switch3rdAnd5thElements(new int[]{5, 2, 9, 7, 3})) {
+            System.out.print(element + ", ");
+        }
+        for (int i = 30; i > 0; --i) {
+            System.out.print("-");
+        }
+        System.out.println("BELOW IS LESSON 7 HW PART 2:");
+        System.out.println(isDivisible(11));
+    }
+
+    public String isDivisible(int i) {
+        try {
+            if (i % 3 == 0 && i % 4 == 0) {
+                return "divisible by 3 and 4";
+            } else if (i % 3 == 0) {
+                return "divisible by 3";
+            } else if (i % 4 == 0) {
+                return "divisible by 4";
+            }
+        } catch (RuntimeException e) {
+            System.out.println("Exception caught: This code works for Integers only.");
+        }
+        return "number is not divisible by 3 or 4 without a remainder";
+    }
+
+    public int[] switch3rdAnd5thElements(int[] arr) {
+        try {
+            int temp = arr[4];
+            arr[4] = arr[2];
+            arr[2] = temp;
+            return arr;
+        } catch (RuntimeException e) {
+            System.out.println("Exception caught: input array of integers with lengh 5 or greater only.");
+        }
+        return arr;
+    }
+
+    @And("I code lesson eight assignments")
+    public void iCodeLessonEightAssignments() {
+        System.out.print("Assignment 1: ");
+        printNumbers0toN(10);
+        System.out.print("\nAssignment 2: ");
+        printNumberRangeAtoZ(-4, 22);
+        System.out.print("\nAssignment 3: ");
+        printIntArray(new int[]{2, 19, 37, 88, 99, 2, -7, 999, 33, 16});
+        System.out.print("\nAssignment 4: ");
+        printEvenIntsArray(new int[]{2, 19, 37, 88, 99, 2, -7, 999, 33, 16});
+        System.out.print("\nAssignment 5: ");
+        System.out.println(isArrayEmpty(new int[]{2, 19, 37, 88, 99, 2, -7, 999, 33, 16}));
+        System.out.print("\nAssignment 6: ");
+        System.out.println(iCheckIfArrayHasIntElement(new int[]{2, 19, 37, 88, 99, 2, -7, 999, 33, 16}, 2));
+        System.out.println(iCheckIfArrayHasStringElement(new String[]{"bamby", "bob", "fork"}, "bomby"));
+        System.out.print("\nAssignment 7: ");
+        printNumbersWithFizzBuzz(20);
+    }
+
+
+    //        1) Write a function that prints all numbers from 0 up to n
+    public void printNumbers0toN(int z) {
+        for (int i = 0; i <= z; i++) {
+            System.out.print(i);
+            if (i != z) System.out.print(", ");
+        }
+    }
+
+    //        2) Write a function that supports also negative numbers
+    public void printNumberRangeAtoZ(int a, int z) {
+        for (int i = a; i <= z; i++) {
+            System.out.print(i);
+            if (i != z) System.out.print(", ");
+        }
+    }
+
+    //        3) Write a function that prints all integer array
+    public void printIntArray(int[] a) {
+        for (int i = 0; i < a.length; i++) {
+            System.out.print(a[i]);
+            if (i != a.length - 1) System.out.print(", ");
+        }
+    }
+
+    //        4) Write a function that prints all even numbers from integer array
+    public void printEvenIntsArray(int[] a) {
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] % 2 == 0) {
+                System.out.print(a[i]);
+                if (i != a.length - 1) System.out.print(", ");
+            }
+        }
+    }
+
+    //        5) Write a function that checks if array is empty
+    public boolean isArrayEmpty(int[] a) {
+        if (a.length == 0) return true;
+        else return false;
+    }
+
+    //        6) Write a function that checks if array contains another element
+    public boolean iCheckIfArrayHasIntElement(int input[], int value) {
+        for (int i : input) {
+            if (i == value) return true;
+        }
+        return false;
+    }
+
+    public boolean iCheckIfArrayHasStringElement(String[] input, String value) {
+        for (String i : input) {
+            if (i.equals(value))
+                return true;
+        }
+        return false;
+    }
+
+    //        7) Write a function, accepts integer argument
+//        It should print all the numbers up to the argument BUT:
+//        if number is multiple of 3, it should print Fizz instead of number
+//        if number is multiple of 5, it should print Buzz instead of number
+//        If it is multiple of both 3 and 5, it should print FizzBuzz instead of number
+//        Result for 20:  1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz 16 17 Fizz 19 Buzz
+    public void printNumbersWithFizzBuzz(int z) {
+        for (int i = 1; i <= z; i++) {
+            if (i % 3 == 0 && i % 5 == 0) System.out.print("FizzBuzz ");
+            else if (i % 3 == 0) System.out.print(("Fizz "));
+            else if (i % 5 == 0) System.out.print(("Buzz "));
+            else System.out.print(i + " ");
+        }
+    }
+
+
 }
+
+
+
+
+
+
+
+

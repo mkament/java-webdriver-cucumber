@@ -20,7 +20,12 @@ public class MarketStepDefs {
             getDriver().get("https://www.google.com/");
         } else if (page.equals("yahoo")) {
             getDriver().get("https://www.yahoo.com/");
-        } else {
+        } else if (page.equals("usps")){
+            getDriver().get("https://www.usps.com/");
+        } else if (page.equals("calculator")){
+            getDriver().get("https://www.calculator.net/");
+        }
+        else {
             throw new RuntimeException("Unsupported page! " + page);
         }
 

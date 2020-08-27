@@ -13,4 +13,6 @@ Feature: Java feature
 #      And I calculate numbers
 #    And I work with arrays
 #    And I work with maps
-    And I switch key and value in a map
+#    And I switch key and value in a map
+#    And I code lesson seven assignments
+  And I code lesson eight assignments
