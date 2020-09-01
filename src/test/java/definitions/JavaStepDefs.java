@@ -333,6 +333,59 @@ public class JavaStepDefs {
     }
 
 
+    @And("I code lesson ten assignments")
+    public void iCodeLessonTenAssignments() {
+        System.out.println("Assignment A: ");
+        System.out.println("User inputs two numbers which are divided by 5. " +
+                "If any resulting number is in a range of 1..10 - print it saying it is in the range of 1 to 10." +
+                " If any number is in the range of 10..20 - print it saying it's in the range of 10..20.");
+        printIfResultingNumbersInRange(40, 60);
+        System.out.println("Assignment B: ");
+        printAdditionOfTwoNumbers(9,19);
+        System.out.println("To test if the function prints correct # I'd cast output to integer and subtract argument one and argument 2 from it.");
+        System.out.println("Assignment C: ");
+        // What challenge did you encounter in Selenium Automation? How did you solve it?
+        // I resolve synchronization issues using explicit wait to make sure I wait for appearance of page elements test scripts interacts with.
+        // I use java script and WebDriver's Actions class methods to click on elements I can't click on any other way.
+        // I do drag and drop using Actions. I helped a team mate to accomplish coding a drag and drop test case he was stuck with for days.
+        // I can switch from window to window to a pop-up window, and can access controls in an iFrame and an iframe inside another iframe.
+        // I write reliable selectors. My locators withstand localization.
+        // I write css locators for faster test scripts' suite execution.
+        // I am able to reach and utilize DOM elements that are not inaccessible to beginners using special manipulations.
+        System.out.println("Assignment D: Reverse every third character of a string. (Example: \"WebDriver\" => \"vDW\")");
+        // Reverse every third character of a string. (Example: "WebDriver" => "vDW")
+        System.out.println(reverseStringPrintEvery3rdChar("WebDriver"));
+        System.out.println("Assignment E: ");
+        System.out.println(speakLikeYoda("I am Automation Engineer"));
+
+
+    }
+
+    public String speakLikeYoda(String input) {
+        String[] words = input.split(" ");
+        String reversed = "";
+        for (String item : words){
+            reversed = item + " " + reversed;
+        }
+        return reversed;
+    }
+    public String reverseStringPrintEvery3rdChar (String input) {
+        String temp = "";
+        for (int i = input.length()-3; i>=0; i-=3){
+            temp +=  input.charAt(i);
+        }
+        return temp;
+    }
+    public void printAdditionOfTwoNumbers(int i, int j){
+        int num = i +j;
+        System.out.println(num);
+    }
+    public void printIfResultingNumbersInRange (int i, int j){
+        int x = i / 5;
+        int y = j / 5;
+        if ((x>=1&&x<=10)||(y>=1&&y<=10)) System.out.println("Number is in 1..10 range.");
+        if ((x>10&&x<=20)||(y>10&&y<=20)) System.out.println("Number is in 10..20 range.");
+    }
 }
 
 
