@@ -16,4 +16,5 @@ Feature: Java feature
 #    And I switch key and value in a map
 #    And I code lesson seven assignments
 #  And I code lesson eight assignments
-    And I code lesson ten assignments
+#    And I code lesson ten assignments
+    And I code lesson Eleven assignments

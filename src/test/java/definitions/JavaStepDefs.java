@@ -386,6 +386,55 @@ public class JavaStepDefs {
         if ((x>=1&&x<=10)||(y>=1&&y<=10)) System.out.println("Number is in 1..10 range.");
         if ((x>10&&x<=20)||(y>10&&y<=20)) System.out.println("Number is in 10..20 range.");
     }
+
+    @And("I code lesson Eleven assignments")
+    public void iCodeLessonAssignments() {
+        System.out.println("Assignment: Write a function that counts number of each character in a string");
+        printStringCharsAndIndexes("WebDriver");
+        System.out.println("Assignment: Write a function that finds if word is palindrome");
+        System.out.println(isPalindrome("motto"));
+        System.out.println(isPalindrome("refer"));
+        System.out.println("Assignment: Write a function that finds if array contains duplicates");
+        System.out.println(arrayContainsDuplicate(new int[]{2, 19, 37, 88, 99, 2, 999, -7, 99, 33, 16, 7}));
+        System.out.println("Assignment: Write a function that find 2 max numbers in an array");
+        System.out.println(findTwoLargestArrayElements(new int[]{2, 19, 37, 88, 99, 2, 999, -7, 99, 33, 16, 7}));
+    }
+    public void printStringCharsAndIndexes (String s){
+        for (int i = 0; i<=s.length()-1; ){
+            System.out.print(s.charAt(i) + " " + ++i + "; ");
+        }
+    }
+    public boolean isPalindrome (String s){
+        String temp = "";
+        for (int i = s.length()-1; i>=0; i--){
+            temp +=s.charAt(i);
+        }
+        if (temp.equals(s)) return true;
+        else return false;
+    }
+    public boolean arrayContainsDuplicate (int[] arr) {
+        for (int i= 0; i<arr.length; i++){
+            for (int j= i+1; j<arr.length; j++){
+                if (arr[i]==arr[j]) return true;
+            }
+        }
+        return false;
+    }
+    public int [] findTwoLargestArrayElements (int[] nums){
+        int [] result = {0,0}; //result[0] is the maximum num, result[1] is the 2nd largest num
+        if (nums.length <2 ) {System.out.println("need to throw error as array's too short");}
+        for (int i = 0; i<nums.length; i++){
+            if (nums[i]>result[0]){
+                result[1] = result[0];
+                result[0] = nums[i];
+            }
+            else if (result[1] < nums[i]){
+                result[1] = nums[i]; }
+        }
+        System.out.println(result[0]);
+        System.out.println(result[1]);
+        return result;
+    }
 }
 
 

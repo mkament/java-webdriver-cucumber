@@ -46,9 +46,10 @@ public class UPSstepDefs {
     }
 
     @And("I submit the shipment form")
-    public void iSubmitTheShipmentForm() {
+    public void iSubmitTheShipmentForm() throws InterruptedException{
         WebElement target = getDriver().findElement(By.xpath("//button[@id='nbsBackForwardNavigationContinueButton']"));
         getExecutor().executeScript("arguments[0].click();", target);
+        Thread.sleep(2000);
     }
 
     @Then("I verify origin shipment fields submitted And I cancel the shipment form")
@@ -92,16 +93,26 @@ public class UPSstepDefs {
 
     @And("I set packaging type and weight")
     public void iSetPackagingTypeAndWeight() throws InterruptedException{
+//        Select parcelType = new Select(getDriver().findElement(By.xpath("//select[@id='nbsPackagePackagingTypeDropdown0']")));
+//        parcelType.selectByVisibleText("UPS Express Box - Small");
+//        getDriver().findElement(By.id("nbsPackagePackageWeightField0")).sendKeys("1.6");
+        getDriver().findElement(By.xpath("//input[@id='nbsPackagePackageWeightField0']")).sendKeys("23");
+        getDriver().findElement(By.xpath("//select[@id='nbsPackagePackagingTypeDropdown0']")).click();
+//        WebElement type = getDriver().findElement(By.xpath("//option[contains(text(),'UPS Express Box - Small')]"));
+//        getActions().moveToElement(type).click().build().perform();
         Select parcelType = new Select(getDriver().findElement(By.xpath("//select[@id='nbsPackagePackagingTypeDropdown0']")));
-        parcelType.selectByVisibleText("UPS Tube");
-        WebElement target = getDriver().findElement(By.xpath("//input[@id='nbsPackagePackageWeightField0']"));
-        getExecutor().executeScript("arguments[0].value='1.4';", target);
-        WebElement target2 = getDriver().findElement(By.xpath("//input[@id='nbsPackageDeclaredValueField0']"));
-        getExecutor().executeScript("arguments[0].value='4.99';", target2);
-        //getActions().sendKeys(target, Keys.RETURN).perform();
-        Thread.sleep(6000);
-        WebElement result = getDriver().findElement(By.xpath("//p[contains(text(),'38 in')]")); //property of pkg type
-        getWait().until(ExpectedConditions.visibilityOf(result));
+        parcelType.selectByVisibleText("UPS Express Box - Small");
+        Thread.sleep(4000);
+//        WebElement target = getDriver().findElement(By.xpath("//input[@id='nbsPackagePackageWeightField0']"));
+//        getExecutor().executeScript("arguments[0].value='1.4';", target);
+//       getActions().moveToElement(target).click().sendKeys("1.8").perform();
+//        Thread.sleep(1000);
+//        target.sendKeys(Keys.UP);
+//        WebElement target2 = getDriver().findElement(By.xpath("//input[@id='nbsPackageDeclaredValueField0']"));
+//        getExecutor().executeScript("arguments[0].value='4.99';", target2);
+//        Thread.sleep(3000);
+//        WebElement result = getDriver().findElement(By.xpath("//p[contains(text(),'38 in')]")); //property of pkg type
+//        getWait(10).until(ExpectedConditions.visibilityOf(result));
     }
 
     @Then("I verify total charges appear")

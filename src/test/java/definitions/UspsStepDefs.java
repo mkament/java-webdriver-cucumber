@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static support.TestContext.getActions;
 import static support.TestContext.getDriver;
 
 public class UspsStepDefs {
@@ -269,17 +270,29 @@ public class UspsStepDefs {
     @Then("I verify that summary of all rows of Cost column is equal Approximate Cost in Order Summary")
     public void iVerifyThatSummaryOfAllRowsOfCostColumnIsEqualApproximateCostInOrderSummary() {
         double calculatedTotal = 0.00;
-        Dimension d = new Dimension(1900,1600);
-        getDriver().manage().window().setSize(d);
-//        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
-//        jse.executeScript("window.scrollBy(0,1000)", "");
-//        WebElement element = getDriver().findElement(By.xpath("//td[contains(text(),'$51.26')]"));
-//       new Actions(getDriver()).moveToElement(element).perform();
-        List<WebElement> rows = getDriver().findElements(By.xpath("//td[contains(text(),'$')][2]"));
+        String totalCountString = getDriver().findElement(By.xpath("//a[contains(@class, 'totalsArea')]")).getText();
+        int totalCount = Integer.parseInt(totalCountString.replaceAll("\\D*", "")); //count of records
+
+        List<WebElement> rows = getDriver().findElements(By.xpath("//td[@idx='7']"));
+        // dealing with infinite scroll
+        while (rows.size() < totalCount) {
+            int lastIndex = rows.size() - 1;
+            getActions().moveToElement(rows.get(lastIndex)).perform();
+            rows = getDriver().findElements(By.xpath("//td[@idx='7']"));
+        }
+        System.out.println("Actual elements size: " + rows.size());
         for (WebElement item: rows){
             calculatedTotal +=Double.valueOf(item.getText().substring(1));
         }
+//        Locale locale = new Locale("en", "US");
+//        NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
+//        double actualTotal = 0;
+//        for (WebElement cost : costList) {
+//            double costTotal = formatter.parse(cost.getText()).doubleValue();
+//            actualTotal += costTotal;
         double total = Double.valueOf(getDriver().findElement(By.xpath("//span[@class='approx-cost']")).getText());
         assertThat(Math.round(calculatedTotal)).isEqualTo(Math.round(total));
+        //assertThat(actualTotal).isCloseTo(expectedTotal, Percentage.withPercentage(1));
     }
+
 }
