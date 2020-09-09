@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.apache.logging.log4j.core.util.JsonUtils;
+import pages.*;
 
 import java.util.*;
 
@@ -434,6 +435,42 @@ public class JavaStepDefs {
         System.out.println(result[0]);
         System.out.println(result[1]);
         return result;
+    }
+
+    @Given("I work with classes")
+    public void iWorkWithClasses() {
+        Animal cat = new Cat("Tom");
+        Mutt badBreedDog = new Mutt("Sparky");
+        badBreedDog.lookHorrible();
+        Animal mouse = new Mouse();
+        mouse.setName("Mickey");
+        System.out.println(cat.getName());
+        cat.walk();
+        cat.sleep();
+        cat.speak();
+        cat.eat("fish");
+
+        Animal dog = new Dog();
+        System.out.println(dog.getName());
+        dog.walk();
+        dog.sleep();
+        dog.speak();
+        dog.eat("fish");
+
+        List<Animal> list = new ArrayList<>();
+        list.add(cat);
+        list.add(dog);
+        list.add(mouse);
+        list.add(badBreedDog);
+        printAnimalNames(list);
+    }
+
+    public void printAnimalNames(List<Animal> animals) {
+        System.out.println("print names method");
+        for (Animal animal : animals) {
+            animal.speak();
+            System.out.println(animal.getName());
+        }
     }
 }
 

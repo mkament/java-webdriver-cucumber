@@ -18,3 +18,7 @@ Feature: Java feature
 #  And I code lesson eight assignments
 #    And I code lesson ten assignments
     And I code lesson Eleven assignments
+
+  @java2
+  Scenario: Classes
+    Given I work with classes
