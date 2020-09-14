@@ -26,9 +26,6 @@ public class UspsStepDefs {
             case "google":
                 getDriver().get("https://www.google.com/");
                 break;
-            case "quote":
-                getDriver().get("https://skryabin.com/market/quote.html");
-                break;
             case "usps":
                 getDriver().get("https://www.usps.com/");
                 break;
@@ -363,7 +360,7 @@ public class UspsStepDefs {
             }
             else if (lowest > Double.parseDouble(item.getText().replaceAll("[^\\d.]", ""))) {
                 lowest = Double.parseDouble((item.getText().replaceAll("[^\\d.]", "")));
-                System.out.println(lowest);
+                //System.out.println(lowest);
             }
         }
         assertThat(lowest).isLessThan(num);
