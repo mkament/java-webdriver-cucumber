@@ -7,6 +7,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.QuoteForm;
+import pages.UPSHome;
+import pages.UPSShipping;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,10 @@ import static support.TestContext.getData;
 import static support.TestContext.*;
 
 public class UPSstepDefs {
+
+    UPSHome upsPg = new UPSHome();
+    UPSShipping upsShip = new UPSShipping();
+
     String priceRecord;
 
     @And("I open Shipping menu")
@@ -201,5 +208,53 @@ public class UPSstepDefs {
         WebElement cancelButton = getDriver().findElement(By.xpath("//button[@id='nbsBackForwardNavigationCancelShipmentButton']"));
         getExecutor().executeScript("arguments[0].click();", cancelButton);
         getDriver().findElement(By.xpath("//button[@id='nbsCancelShipmentWarningYes']")).click();
+    }
+
+    @And("I open Shipping menu oop")
+    public void iOpenShippingMenuOop() {
+        upsPg.closeCookiesDialog();
+        upsPg.clickShippingLink();
+    }
+
+    @And("I go to Create a Shipment oop")
+    public void iGoToCreateAShipmentOop() {
+        upsPg.goToShippingPage();
+    }
+
+    @When("I fill out origin shipment fields oop")
+    public void iFillOutOriginShipmentFieldsOop() {
+        Map<String, String> data = getData("from");
+        upsShip.populateShippingField("originname", data.get("name"));
+        upsShip.populateShippingField("originaddress1", data.get("address"));
+        upsShip.populateShippingField("originpostal", data.get("zip"));
+
+        upsShip.waitForElementValue("origincity", data.get("city"));
+        //selection in dropdown
+        upsShip.waitForStateSelection(data.get("state"));
+
+        upsShip.populateShippingField("originemail", data.get("email"));
+        upsShip.populateShippingField("originphone", data.get("phone"));
+    }
+
+    @And("I submit the shipment form oop")
+    public void iSubmitTheShipmentFormOop() {
+        upsShip.clickForwardButton();
+    }
+
+    @Then("I verify origin shipment fields submitted oop")
+    public void iVerifyOriginShipmentFieldsSubmittedOop() {
+        assertThat(upsShip.getPageHeaderText()).contains("Where is your shipment going");
+    }
+
+    @And("I cancel the shipment form oop")
+    public void iCancelTheShipmentFormOop() {
+    upsShip.clickCancelButton();
+
+    }
+
+    @Then("I verify shipment form is reset oop")
+    public void iVerifyShipmentFormIsResetOop() {
+        assertThat(upsShip.getPageHeaderText()).contains("Hello");
+        assertThat(upsShip.getInputElementValue("originname")).contains("");
     }
 }

@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -67,11 +68,14 @@ public class QuoteForm {
     @FindBy(id = "formSubmit")
     private WebElement submit;
 
-//    @FindBy(id = "contactPersonName")
-//    private WebElement contactPersonName;
-//
-//    @FindBy(id = "contactPersonPhone")
-//    private WebElement contactPersonPhone;
+    @FindBy(id = "contactPersonName")
+    private WebElement contactPersonName;
+
+    @FindBy(id = "contactPersonPhone")
+    private WebElement contactPersonPhone;
+
+    @FindBy(name = "additionalInfo")
+    private WebElement additionalInfoFrame;
 
     @FindBy(name = "allowedToContact")
     private WebElement allowedToContact;
@@ -103,6 +107,11 @@ public class QuoteForm {
     @FindBy(id = "agreedToPrivacyPolicy-error")
     private WebElement agreedToPrivacyPolicyError;
 
+    // THE DYNAMIC FIELD!!! *****************************************************************************************
+    private WebElement errorElement(String fieldName) {
+        return getDriver().findElement(By.id(fieldName + "-error"));
+    }
+
     // constructor
     public QuoteForm() {
         PageFactory.initElements(getDriver(), this);
@@ -111,6 +120,20 @@ public class QuoteForm {
     }
 
     // methods
+
+    public String getErrorFieldText(String fieldName) {
+        return errorElement(fieldName).getText();
+    }
+
+    public boolean isErrorFieldDisplayed(String fieldName) {
+        boolean isDisplayed;
+        try {
+            isDisplayed = errorElement(fieldName).isDisplayed();
+        } catch (NoSuchElementException e) {
+            isDisplayed = false;
+        }
+        return isDisplayed;
+    }
 
     public void open() {
         getDriver().get(url);
@@ -169,6 +192,14 @@ public class QuoteForm {
     public void submit() {
         submit.click();
     }
+
+    public void fillContactInfo(String nameValue, String phoneValue) {
+        getDriver().switchTo().frame(additionalInfoFrame);
+        contactPersonName.sendKeys(nameValue);
+        contactPersonPhone.sendKeys(phoneValue);
+        getDriver().switchTo().defaultContent();
+    }
+
 
     public String getElementText(String str) {
         switch (str) {

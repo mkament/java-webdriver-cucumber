@@ -6,6 +6,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import pages.QuoteForm;
 import pages.QuoteResult;
+import pages.UPSHome;
 
 import java.util.Map;
 
@@ -16,12 +17,16 @@ public class QuoteStepDefs {
 
     QuoteForm form = new QuoteForm();
     QuoteResult result = new QuoteResult();
+    UPSHome upsPg = new UPSHome();
 
     @Given("I open {string} page oop")
     public void iOpenPage(String page) throws InterruptedException {
         switch (page) {
             case "quote":
                 form.open();
+                break;
+            case "ups":
+                upsPg.open();
                 break;
             default:
                 throw new RuntimeException("Unknown page: " + page);
@@ -50,7 +55,8 @@ public class QuoteStepDefs {
         assertThat(result.getName()).isEqualTo(user.get("firstName") + " " + user.get("lastName"));
         assertThat(result.getPassword()).isEqualTo("[entered]");
         assertThat(result.getEmail()).isEqualTo(user.get("email"));
-        assertThat(result.getAgreedToPrivacyPolicy().equals("true")).isTrue();
+        //assertThat(result.getAgreedToPrivacyPolicy().equals("true")).isTrue();
+        assertThat(result.isAgreedToPrivacyPolicy()).isTrue();
     }
 
     @When("I fill out optional fields for {string} oop")
@@ -63,6 +69,7 @@ public class QuoteStepDefs {
         form.clickGender(user.get("gender"));
         form.fillAddress(user.get("address"));
         form.clickThirdPartyButton();
+        form.fillContactInfo(user.get("contactPersonName"), user.get("contactPersonPhone"));
 
     }
 
@@ -93,34 +100,36 @@ public class QuoteStepDefs {
         assertThat(result.getAllowedToContact().equals("true"));
         assertThat(result.getCar().equals(user.get("car")));
         assertThat(result.getThirdPartyAgreement().equals("accepted"));
+        assertThat(result.getResultText()).contains(user.get("contactPersonName"));
+        assertThat(result.getResultText()).contains(user.get("contactPersonPhone"));
     }
 
     @Then("I see {string} error message {string}")
     public void iSeeErrorMessage(String field, String error) {
-
-        switch (field) {
-            case "username":
-                assertThat(form.getUsernameErrorValue()).isEqualTo(error);
-                break;
-            case "email":
-                assertThat(form.getEmailErrorValue()).isEqualTo(error);
-                break;
-            case "password":
-                assertThat(form.getPasswordErrorValue()).isEqualTo(error);
-                break;
-            case "confirmPassword":
-                assertThat(form.getPasswordConfirmErrorValue()).isEqualTo(error);
-                break;
-            case "name":
-                assertThat(form.getNameErrorValue()).isEqualTo(error);
-                break;
-            case "agreedToPrivacyPolicy":
-                assertThat(form.getAgreedToPrivacyPolicyErrorValue()).isEqualTo(error);
-                break;
-            default:
-                throw new RuntimeException("Unknown field: " + field + " for expected error: " + error);
-
-        }
+        String actualError = form.getErrorFieldText(field);
+        assertThat(actualError).isEqualTo(error);
+//        switch (field) {
+//            case "username":
+//                assertThat(form.getUsernameErrorValue()).isEqualTo(error);
+//                break;
+//            case "email":
+//                assertThat(form.getEmailErrorValue()).isEqualTo(error);
+//                break;
+//            case "password":
+//                assertThat(form.getPasswordErrorValue()).isEqualTo(error);
+//                break;
+//            case "confirmPassword":
+//                assertThat(form.getPasswordConfirmErrorValue()).isEqualTo(error);
+//                break;
+//            case "name":
+//                assertThat(form.getNameErrorValue()).isEqualTo(error);
+//                break;
+//            case "agreedToPrivacyPolicy":
+//                assertThat(form.getAgreedToPrivacyPolicyErrorValue()).isEqualTo(error);
+//                break;
+//            default:
+//                throw new RuntimeException("Unknown field: " + field + " for expected error: " + error);
+//        }
     }
 
     @When("I fill out {string} field with {string}")
@@ -162,4 +171,5 @@ public class QuoteStepDefs {
             default:
                 throw new RuntimeException("Unable to find field: " + field );
     }
-}}
+}
+}

@@ -8,6 +8,10 @@ import static support.TestContext.getDriver;
 
 public class QuoteResult {
     //fields
+
+    @FindBy(id = "quotePageResult")
+    private WebElement result;
+
     @FindBy(name="dateOfBirth")
     private WebElement dateOfBirth;
 
@@ -110,5 +114,17 @@ public class QuoteResult {
     }
     public String getAgreedToPrivacyPolicy() {
         return agreedToPrivacyPolicy.getText();
+    }
+
+    public boolean isAgreedToPrivacyPolicy() {
+        return Boolean.parseBoolean(agreedToPrivacyPolicy.getText());
+    }
+
+    public boolean isAllowedToContact() {
+        return Boolean.parseBoolean(allowedToContact.getText());
+    }
+
+    public String getResultText() {
+        return result.getText();
     }
 }
