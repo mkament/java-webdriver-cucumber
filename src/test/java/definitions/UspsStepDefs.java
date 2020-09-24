@@ -11,7 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import pages.*;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,25 +20,31 @@ import static support.TestContext.*;
 
 public class UspsStepDefs {
 
-    @Given("I open {string} page")
-    public void iOpenPage(String page) {
-        switch (page.toLowerCase()) {
-            case "google":
-                getDriver().get("https://www.google.com/");
-                break;
-            case "usps":
-                getDriver().get("https://www.usps.com/");
-                break;
-            case "converter":
-                getDriver().get("https://www.unitconverters.net/");
-                break;
-            case "USPS calculate":
-                getDriver().get("https://postcalc.usps.com/");
-            default:
-                System.out.println("Unsupported page: " + page);
+    UspsHome uspsHome = new UspsHome();
+    UspsLookupByZip uspsLookupByZip = new UspsLookupByZip();
+    UspsByAddressForm uspsByAddressForm = new UspsByAddressForm();
+    UspsByAddressResult uspsByAddressResult = new UspsByAddressResult();
+    UspsCalculatePostagePrice uspsCalculatePostagePrice = new UspsCalculatePostagePrice();
 
-        }
-    }
+//    @Given("I open {string} page")
+//    public void iOpenPage(String page) {
+//        switch (page.toLowerCase()) {
+//            case "google":
+//                getDriver().get("https://www.google.com/");
+//                break;
+//            case "usps":
+//                getDriver().get("https://www.usps.com/");
+//                break;
+//            case "converter":
+//                getDriver().get("https://www.unitconverters.net/");
+//                break;
+//            case "USPS calculate":
+//                getDriver().get("https://postcalc.usps.com/");
+//            default:
+//                System.out.println("Unsupported page: " + page);
+//
+//        }
+//    }
 
     @When("I go to Lookup ZIP page by address")
     public void iGoToLookupZIPPageByAddress() throws InterruptedException {
@@ -397,5 +403,58 @@ public class UspsStepDefs {
         String location = getDriver().findElement(By.xpath("//div[@id='boxLocation']/h2")).getText();
         assertThat(location).isEqualTo(office);
         assertThat(boxSize).contains(size);
+    }
+
+
+    @When("I go to Lookup ZIP page by address oop")
+    public void iGoToLookupZIPPageByAddressOop() {
+        uspsHome.goToLookupByZip();
+        uspsLookupByZip.clickFindByAddress();
+    }
+
+    @And("I fill out {string} street, {string} city, {string} state oop")
+    public void iFillOutStreetCityStateOop(String street, String city, String state) {
+        uspsByAddressForm.fillStreet(street);
+        uspsByAddressForm.fillCity(city);
+        uspsByAddressForm.selectState(state);
+        uspsByAddressForm.clickFind();
+    }
+
+    @Then("I validate {string} zip code exists in the result oop")
+    public void iValidateZipCodeExistsInTheResultOop(String zip) {
+        String actualTotalResult = uspsByAddressResult.getSearchResult();
+        assertThat(actualTotalResult).contains(zip);
+
+        boolean areAllItemsContainZip = uspsByAddressResult.areAllResultsContainZip(zip);
+        assertThat(areAllItemsContainZip).isTrue();
+    }
+
+
+    @When("I go to Calculate Price Page oop")
+    public void iGoToCalculatePricePageOop() {
+        uspsHome.goToCalculatePrice();
+//        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//a[@id='mail-ship-width']"))).perform();
+//        WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+//        WebElement result = getDriver().findElement(By.xpath("//li[@class='menuheader']//a[@href='https://postcalc.usps.com/']"));
+//        wait.until(ExpectedConditions.elementToBeClickable(result));
+//
+//        getDriver().findElement(By.xpath("//li[@class='menuheader']//a[@href='https://postcalc.usps.com/']")).click();
+    }
+
+    @And("I select {string} with {string} shape oop")
+    public void iSelectWithShapeOop(String country, String shape){
+        uspsCalculatePostagePrice.selectCountry(country);
+        uspsCalculatePostagePrice.clickShape(shape);
+    }
+
+    @And("I define {string} quantity oop")
+    public void iDefineQuantityOop(String quantity) {
+        uspsCalculatePostagePrice.fillQuantity(quantity);
+        uspsCalculatePostagePrice.clickCalculate();
+    }
+
+    @Then("I calculate the price and validate cost is {string} oop")
+    public void iCalculateThePriceAndValidateCostIsOop(String price) {
+        uspsCalculatePostagePrice.verifyTotal(price);
     }
 }

@@ -169,7 +169,9 @@ public class QuoteStepDefs {
                 assertThat(form.getEmailErrorValue()).isEqualTo("");
                 break;
             default:
-                throw new RuntimeException("Unable to find field: " + field );
+                throw new RuntimeException("Unable to find field: " + field);
+        }
     }
-}
+
+
 }

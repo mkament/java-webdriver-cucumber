@@ -2,16 +2,22 @@
 Feature: USPS scenarios
 
   @usps1
-  Scenario: Validate ZIP code for Portnov Computer School
-    Given I open "usps" page
+  Scenario Outline: Validate ZIP code
+    Given I go to "usps" page
     When I go to Lookup ZIP page by address
-    And I fill out "4970 El Camino Real" street, "Los Altos" city, "CA" state
-    Then I validate "94022" zip code exists in the result
+    And I fill out "<street>" street, "<city>" city, "<state>" state
+    Then I validate "<zip>" zip code exists in the result
+    Examples:
+      | street              | city      | state | zip   |
+      | 4970 El Camino Real | Los Altos | CA    | 94022 |
+      | 11 Wall st          | New York  | NY    | 10005 |
+      | 111 S Michigan Ave  | Chicago   | IL    | 60603 |
 
   @usps2
-  Scenario: Calculate price
+  Scenario: Calculate price classic :)
     Given I go to "usps" page
     When I go to Calculate Price Page
+    And I wait for 8 sec
     And I select "Canada" with "Postcard" shape
     And I define "2" quantity
     Then I calculate the price and validate cost is "$2.40"
@@ -91,3 +97,24 @@ Feature: USPS scenarios
     And I reserve new PO box for "94022"
     Then I verify that "Los Altos — Post Office™" present
     And I verify that "Size 5-XL" PO Box is available in "Los Altos — Post Office™"
+
+  @usps12
+  Scenario Outline: Validate ZIP code oop
+    Given I open "usps" page
+    When I go to Lookup ZIP page by address oop
+    And I fill out "<street>" street, "<city>" city, "<state>" state oop
+    Then I validate "<zip>" zip code exists in the result oop
+    Examples:
+      | street              | city      | state | zip   |
+      | 4970 El Camino Real | Los Altos | CA    | 94022 |
+      | 11 Wall st          | New York  | NY    | 10005 |
+      | 111 S Michigan Ave  | Chicago   | IL    | 60603 |
+
+  @usps13
+  Scenario: Calculate price
+    Given I open "usps" page
+    When I go to Calculate Price Page oop
+    And I select "Canada" with "Postcard" shape oop
+    And I define "2" quantity oop
+    And I wait for 5 sec
+    Then I calculate the price and validate cost is "$2.40" oop
