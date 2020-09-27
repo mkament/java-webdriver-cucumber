@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -23,6 +24,10 @@ public class Page {
         getDriver().get(url);
     }
 
+    protected WebElement getByXpath(String xpath) {
+        return getDriver().findElement(By.xpath(xpath));
+    }
+
     protected void mouseOver(WebElement element) {
         getActions().moveToElement(element).perform();
     }
@@ -31,6 +36,9 @@ public class Page {
         getWait().until(ExpectedConditions.visibilityOf(element));
     }
 
+    protected void waitForVisible(WebElement element, int i) {
+        getWait(i).until(ExpectedConditions.visibilityOf(element));
+    }
     protected void waitUntilContainsText(WebElement element) {
         getWait().until(driver -> !element.getText().isEmpty());
     }
@@ -61,5 +69,7 @@ public class Page {
     protected void clickWithJS(WebElement element) {
         getExecutor().executeScript("arguments[0].click();", element);
     }
+
+    protected void clickWithActions(WebElement element) {getActions().click(element).perform();};
 
 }

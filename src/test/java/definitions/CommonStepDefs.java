@@ -1,8 +1,7 @@
 package definitions;
 
 import cucumber.api.java.en.Given;
-import pages.QuoteForm;
-import pages.UspsHome;
+import pages.*;
 
 public class CommonStepDefs {
 
@@ -14,6 +13,9 @@ public class CommonStepDefs {
                 break;
             case "usps":
                 new UspsHome().open();
+                break;
+            case "careers":
+                new CareersHeader().open();
                 break;
             default:
                 throw new RuntimeException("Unknown page: " + page);
