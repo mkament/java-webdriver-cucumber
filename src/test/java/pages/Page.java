@@ -3,8 +3,13 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.List;
 
 import static support.TestContext.*;
 import static support.TestContext.getWait;
@@ -24,8 +29,16 @@ public class Page {
         getDriver().get(url);
     }
 
+    public void refresh() {
+        getDriver().navigate().refresh();
+    }
+
     protected WebElement getByXpath(String xpath) {
         return getDriver().findElement(By.xpath(xpath));
+    }
+
+    protected List<WebElement> getAllByXpath(String xpath) {
+        return getDriver().findElements(By.xpath(xpath));
     }
 
     protected void mouseOver(WebElement element) {
@@ -39,6 +52,11 @@ public class Page {
     protected void waitForVisible(WebElement element, int i) {
         getWait(i).until(ExpectedConditions.visibilityOf(element));
     }
+
+    protected void waitForDisappear(WebElement element) {
+        getWait().until(ExpectedConditions.invisibilityOf(element));
+    }
+
     protected void waitUntilContainsText(WebElement element) {
         getWait().until(driver -> !element.getText().isEmpty());
     }
