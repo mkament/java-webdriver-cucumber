@@ -14,19 +14,19 @@ public class Hooks {
 
     @Before(order = 0)
     public void scenarioStart() {
-//        TestContext.initialize();
+        TestContext.initialize();
         TestContext.setTimestamp();
-//        getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-//        getDriver().manage().deleteAllCookies();
+        getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        getDriver().manage().deleteAllCookies();
     }
 
     @After(order = 0)
     public void scenarioEnd(Scenario scenario) {
-//        if (scenario.isFailed()) {
-//            TakesScreenshot screenshotTaker = (TakesScreenshot) getDriver();
-//            byte[] screenshot = screenshotTaker.getScreenshotAs(OutputType.BYTES);
-//            scenario.embed(screenshot, "image/png");
-//        }
-//        TestContext.teardown();
+        if (scenario.isFailed()) {
+            TakesScreenshot screenshotTaker = (TakesScreenshot) getDriver();
+            byte[] screenshot = screenshotTaker.getScreenshotAs(OutputType.BYTES);
+            scenario.embed(screenshot, "image/png");
+        }
+        TestContext.teardown();
     }
 }

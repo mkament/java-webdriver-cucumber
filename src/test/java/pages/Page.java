@@ -3,16 +3,20 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static support.TestContext.*;
-import static support.TestContext.getWait;
+//import static support.TestContext.getWait;
 
 public class Page {
 
@@ -26,6 +30,7 @@ public class Page {
     }
 
     public void open() {
+        System.out.println(url);
         getDriver().get(url);
     }
 

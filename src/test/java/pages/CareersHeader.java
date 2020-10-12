@@ -28,9 +28,10 @@ public class CareersHeader extends Page{
         click(loginBtn);
     }
 
-    public void clickRecruitBtn() {
+    public CareersPositions clickRecruitBtn() {
         mouseOver(recruitBtn);
         click(recruitBtn);
+        return new CareersPositions();
     }
 
     public void clickSearchBtn() {

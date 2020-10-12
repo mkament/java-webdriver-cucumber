@@ -2,10 +2,11 @@ package definitions;
 
 import cucumber.api.java.en.Given;
 import pages.*;
+import pages.CareersHeader;
 
-public class CommonStepDefs {
+public class CommonStepDefs{
 
-    @Given("I open {string} page")
+    @Given("I open the {string} page")
     public void iOpenPage(String page) throws InterruptedException {
         switch (page) {
             case "quote":
