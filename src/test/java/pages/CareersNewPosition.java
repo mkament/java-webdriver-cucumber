@@ -35,13 +35,18 @@ public class CareersNewPosition extends CareersRecruit{
     @FindBy(xpath = "//button[@id='positionSubmit']")
     WebElement submitButton;
 
+    @FindBy(xpath = "//button[contains(text(),'Edit')]")
+    WebElement editExistingPositionBtn;
+
     public void FillOutTitle(String str){
         getWait(10).until(ExpectedConditions.visibilityOf(titleField));
+        titleField.clear();
         titleField.sendKeys(str);
     }
 
     public void FillOutDescription(String str){
         getWait(10).until(ExpectedConditions.visibilityOf(descriptionField));
+        descriptionField.clear();
         descriptionField.sendKeys(str);
     }
 
@@ -69,4 +74,6 @@ public class CareersNewPosition extends CareersRecruit{
     public void SubmitForm(){
         submitButton.click();
     }
+
+    public void clickEditExistingPositionBtn() { editExistingPositionBtn.click(); }
 }

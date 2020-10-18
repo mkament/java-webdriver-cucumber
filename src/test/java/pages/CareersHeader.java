@@ -8,6 +8,12 @@ public class CareersHeader extends Page{
         url = "https://skryabin-careers.herokuapp.com/";
     }
 
+    @FindBy(xpath = "//button[contains(text(),'My Jobs')]")
+    private WebElement myJobsBtn;
+
+    @FindBy(xpath = "//button[contains(text(),'Careers')]")
+    private WebElement CareersBtn;
+
     @FindBy(xpath="//*[contains(text(),'Login')]")
     private WebElement loginBtn;
 
@@ -16,6 +22,9 @@ public class CareersHeader extends Page{
 
     @FindBy(xpath = "//button[contains(text(),'Recruit')]")
     private WebElement recruitBtn;
+
+    @FindBy(xpath = "//button[text()='Apply']")
+    private WebElement applyBtn;
 
     @FindBy(xpath = "//button[@id='positionsQuickSearchButton']")
     private WebElement searchButton;
@@ -28,10 +37,26 @@ public class CareersHeader extends Page{
         click(loginBtn);
     }
 
-    public CareersPositions clickRecruitBtn() {
-        mouseOver(recruitBtn);
-        click(recruitBtn);
-        return new CareersPositions();
+    public void clickMyJobsBtn() {
+        mouseOver(myJobsBtn);
+        click(myJobsBtn);
+    }
+
+    public void clickCareersBtn() {
+        mouseOver(CareersBtn);
+        click(CareersBtn);
+    }
+
+    public CareersProfile clickRecruitBtn() {
+        mouseOver(applyBtn);
+        click(applyBtn);
+        return new CareersProfile();
+    }
+
+    public CareersProfile clickApplyBtn() {
+        mouseOver(applyBtn);
+        click(applyBtn);
+        return new CareersProfile ();
     }
 
     public void clickSearchBtn() {
@@ -43,8 +68,18 @@ public class CareersHeader extends Page{
         return usernameCaption.getText();
     }
 
+    public CareersProfile clickUsername(){
+        usernameCaption.click();
+        return new CareersProfile();
+    }
+
     public boolean isRecruitButtonPresent(){
         if (recruitBtn.isDisplayed()) return true;
+        else return false;
+    }
+
+    public boolean isProfileNamePresent(){
+        if (usernameCaption.isDisplayed()) return true;
         else return false;
     }
 

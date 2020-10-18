@@ -19,10 +19,7 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -69,16 +66,71 @@ public class TestContext {
         return driver;
     }
 
-    public static Map<String, String> getData(String fileName) {
-        try {
-            String path = System.getProperty("user.dir") + "/src/test/resources/data/" + fileName + ".yml";
-            File file = new File(path);
-            InputStream stream = new FileInputStream(file);
-            Yaml yaml = new Yaml();
-            return yaml.load(stream);
-        } catch (FileNotFoundException e) {
+    public static Map<String, String> getPosition(String title) {
+        Map<String, String> position = getData(title);
+        String timestampedTitle = position.get("title");
+        if (timestampedTitle != null) {position.put("title", timestampedTitle + getTimestamp()); }
+        String dateOpen = position.get("dateOpen");
+        if (dateOpen != null) {
+            String isoDateOpen = new SimpleDateFormat("yyyy-MM-dd").format(new Date(dateOpen));
+            position.put("dateOpen", isoDateOpen); }
+        return position; }
+
+    public static File getFile(String fileName, String extension) {
+        String path = System.getProperty("user.dir") + "/src/test/resources/data/" + fileName + "." + extension;
+        return new File(path);
+    }
+
+    public static void saveFile(String fileName, String extension, byte[] byteArray) {
+        try(FileOutputStream stream = new FileOutputStream(getFile(fileName, extension))) {
+            stream.write(byteArray);
+            stream.flush();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static FileInputStream getStream(String fileName, String extension) {
+        try {
+            return new FileInputStream(getFile(fileName, extension));
+        }  catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Map<String, String> getCandidateData(String title) {
+        Map<String, Map<String, String>> list = new Yaml().load(getStream("candidates", "yml"));
+        return list.get(title);
+    }
+
+    public static Config getConfig() {
+        return new Yaml().loadAs(getStream("config", "yml"), Config.class);
+    }
+
+    public static Map<String, String> getCandidate(String title) {
+        Map<String, String> candidate = getCandidateData(title);
+        String email = candidate.get("email");
+        if (email != null) {
+            String[] emailPart = email.split("@");
+            email = emailPart[0] + getTimestamp() + "@" + emailPart[1];
+            candidate.put("email", email);
+        }
+        return candidate;
+    }
+
+//    public static Map<String, String> getData(String fileName) {
+//        try {
+//            String path = System.getProperty("user.dir") + "/src/test/resources/data/" + fileName + ".yml";
+//            File file = new File(path);
+//            InputStream stream = new FileInputStream(file);
+//            Yaml yaml = new Yaml();
+//            return yaml.load(stream);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+    public static Map<String, String> getData(String fileName) {
+        return new Yaml().load(getStream(fileName, "yml"));
     }
 
     public static WebDriverWait getWait() {

@@ -67,12 +67,12 @@ public class CareersRecruit extends CareersHeader {
         return getAllByXpath("//h4[@class='card-title']");
     }
 
-    public boolean IsCardFound (List <WebElement> l) {
+    public boolean IsCardFound (List <WebElement> l, String pos) {
         //List <WebElement> webElementsList = new CareersRecruit().GetAllCardTitles();
         getWait(10).until(ExpectedConditions.visibilityOfAllElements(allPresentPositionCards()));
         boolean present = false;
         for (WebElement el : l) {
-            if (el.getText().equals(getData("position").get("title"))) {
+            if (el.getText().equals(pos)) {
                 present = true;
             }
         }

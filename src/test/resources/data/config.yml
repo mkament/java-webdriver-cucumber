@@ -1,0 +1,16 @@
+!!support.Config
+browser: chrome
+testEnv: local
+isHeadless: false
+implicitTimeout: 3
+pageLoadTimeout: 300
+explicitTimeout: 5
+supportedOSList:
+  - mac
+  - win
+admin:
+  username: jdoe
+  password: "12345"
+user:
+  username: jdoe
+  password: "12345"

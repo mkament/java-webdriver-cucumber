@@ -1,0 +1,18 @@
+sdet:
+  firstName: John
+  lastName: Doe
+  email: john.doe@example.com
+  password: welcome
+  address: 4970 El Camino Real
+  city: Los Altos
+  state: CA
+  zip: "94040"
+qa:
+  firstName: Richard
+  lastName: Roe
+  email: richard.roe@example.com
+  password: welcome
+  address: 4970 El Camino Real
+  city: Los Altos
+  state: CA
+  zip: "94040"
