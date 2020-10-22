@@ -66,7 +66,7 @@ public class TestContext {
         return driver;
     }
 
-    public static Map<String, String> getPosition(String title) {
+    public static Map<String, String> getPosition(String title) { //creates position with timestamp
         Map<String, String> position = getData(title);
         String timestampedTitle = position.get("title");
         if (timestampedTitle != null) {position.put("title", timestampedTitle + getTimestamp()); }
@@ -80,26 +80,28 @@ public class TestContext {
         String path = System.getProperty("user.dir") + "/src/test/resources/data/" + fileName + "." + extension;
         return new File(path);
     }
-
     public static void saveFile(String fileName, String extension, byte[] byteArray) {
         try(FileOutputStream stream = new FileOutputStream(getFile(fileName, extension))) {
             stream.write(byteArray);
             stream.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-    }
+        } }
 
     public static FileInputStream getStream(String fileName, String extension) {
         try {
             return new FileInputStream(getFile(fileName, extension));
         }  catch (FileNotFoundException e) {
             throw new RuntimeException(e);
-        }
-    }
+        } }
 
     public static Map<String, String> getCandidateData(String title) {
         Map<String, Map<String, String>> list = new Yaml().load(getStream("candidates", "yml"));
+        return list.get(title);
+    }
+
+    public static Map<String, String> getUpdatedCandidateData(String title) {
+        Map<String, Map<String, String>> list = new Yaml().load(getStream("candidates_updated", "yml"));
         return list.get(title);
     }
 
