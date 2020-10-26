@@ -20,8 +20,9 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static support.TestContext.*;
 
 import cucumber.api.java.en.And;
+import support.Loggable;
 
-public class CareersStepDefs {
+public class CareersStepDefs implements Loggable {
     CareersHeader careersHeader = new CareersHeader();
     CareersLogin careersLogin = new CareersLogin();
     CareersPositions careersPositions = new CareersPositions();

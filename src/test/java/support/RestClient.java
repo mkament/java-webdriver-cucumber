@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static support.TestContext.*;
 
-public class RestClient {
+public class RestClient implements Loggable{
 
     private String baseUrl = "https://skryabin.com/recruit/api/v1/";
     private static String loginToken;
@@ -21,6 +21,7 @@ public class RestClient {
     public static final String AUTH = "Authorization";
 
     public void login(Map<String, String> user) {
+        getLogger().info("Logging in user " + user.get("email"));
         // prepare
         RequestSpecification request = RestAssured.given()
                 .log().all()
@@ -42,11 +43,11 @@ public class RestClient {
                 .getMap("");
 
         loginToken = "Bearer " + result.get("token");
-        System.out.println(loginToken);
-
+        getLogger().info(loginToken);
     }
 
     public Map<String, Object> createPosition(Map<String, String> position) {
+        getLogger().info("Creating position !");
         // prepare
         RequestSpecification request = RestAssured.given()
                 .log().all()
@@ -74,24 +75,24 @@ public class RestClient {
     }
 
     public List<Map<String, Object>> getPositions() {
+        getLogger().info("Getting all positions");
         return RestAssured.given()
                 .log().all()
                 .baseUri(baseUrl)
                 .basePath("positions")
                 .when()
                 .get()
-                .then()// returns String, Object map likely ?
+                .then()
                 .log().all()
                 .statusCode(200)
                 .extract()
                 .jsonPath()
                 .getList("");
-//                RequestSpecification request = RestAssured.given().log().all().baseUri(baseUrl).basePath("positions");
-//                Response response = request.when().get();
-//                List<Map<String, Object>> result = response.then().log().all().statusCode(200).extract().jsonPath().getList("");
     }
 
     public Map<String, Object> updatePosition(Map<String, String> fields, Object id) {
+        getLogger().info("Updating position id " + id);
+
         return RestAssured.given()
                 .log().all()
                 .baseUri(baseUrl)
@@ -110,6 +111,8 @@ public class RestClient {
     }
 
     public Map<String, Object> getPosition(Object id) {
+        getLogger().info("Getting position id " + id);
+
         return RestAssured.given()
                 .log().all()
                 .baseUri(baseUrl)
@@ -125,6 +128,8 @@ public class RestClient {
     }
 
     public void deletePositionById(Object id) {
+        getLogger().info("Deleting position id " + id);
+
         RestAssured.given()
                 .log().all()
                 .baseUri(baseUrl)

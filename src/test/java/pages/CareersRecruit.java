@@ -11,6 +11,11 @@ import static support.TestContext.getData;
 import static support.TestContext.getWait;
 
 public class CareersRecruit extends CareersHeader {
+
+    public CareersRecruit() {
+        url = "https://skryabin-careers.herokuapp.com/recruit";
+    }
+
     private WebElement positionCard(String title) {     // dynamic element
         return getByXpath("//h4[text()='" + title + "']/ancestor::div[contains(@class,'card-body')]");
     }
@@ -30,8 +35,24 @@ public class CareersRecruit extends CareersHeader {
         return getAllByXpath("//span[(contains(text(), 'Candidates: ' ))]");
     }
 
+    @Override
+    public void refresh() {
+        new CareersLanding().open();
+        open();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // dynamic element
+
 
     public boolean isPositionVisible(String title) {
+        logInfo("Taking screenshot");
+        takeScreenshot();
+
 //        List<WebElement> cards = allPositionCards(title);
 //        if (cards.isEmpty()) {
 //            return false;
@@ -41,6 +62,7 @@ public class CareersRecruit extends CareersHeader {
         try {
             return positionCard(title).isDisplayed();
         } catch (NoSuchElementException e) {
+            getLogger().info("Position " + title + " is not visible!");
             return false;
         }
     }
